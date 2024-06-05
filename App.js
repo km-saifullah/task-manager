@@ -8,6 +8,7 @@ import DeleteButton from "./components/DeleteButton";
 const App = () => {
   const [openModal, setOpenModal] = useState(false);
   const [taskName, setTaskName] = useState([]);
+  const [priorityValue, setPriorityValue] = useState("");
 
   // close modal
   const onCloseModal = () => {
@@ -26,8 +27,10 @@ const App = () => {
     } else {
       setTaskName((currentTask) => [
         ...taskName,
+        ...priorityValue,
         {
           name: enteredText,
+          priority: priorityValue,
           createdAt: new Date()
             .toLocaleString("en-GB", {
               year: "numeric",
@@ -69,6 +72,7 @@ const App = () => {
           setTaskName={setTaskName}
           handleTask={handleTask}
           handleDeleteTask={handleDeleteTask}
+          setPriorityValue={setPriorityValue}
         />
       )}
 
@@ -82,6 +86,7 @@ const App = () => {
                 name={task.item.name}
                 createdAt={task.item.createdAt}
                 id={task.item.id}
+                priority={task.item.priority}
               >
                 <DeleteButton
                   id={task.item.id}
