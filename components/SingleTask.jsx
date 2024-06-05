@@ -10,7 +10,7 @@ const SingleTask = ({ name, createdAt, priority, children }) => {
       case "Low":
         return "blue";
       default:
-        return "black";
+        return "transparent";
     }
   };
   const borderColor = getBorderColor(priority);

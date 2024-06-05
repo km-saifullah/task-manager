@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { Button, Modal, StyleSheet, TextInput, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
-const AddTask = ({ onCloseModal, taskName, handleTask, setPriorityValue }) => {
+const AddTask = ({
+  onCloseModal,
+  taskName,
+  handleTask,
+  setPriorityValue,
+  editTask,
+}) => {
   const [singleTaskName, setSingleTaskName] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [priority, setPriority] = useState(null);
@@ -11,6 +17,7 @@ const AddTask = ({ onCloseModal, taskName, handleTask, setPriorityValue }) => {
     { label: "Medium", value: "Medium" },
     { label: "High", value: "High" },
   ];
+
   // handle input fields
   const handleInput = (enteredText) => {
     setSingleTaskName(enteredText);
@@ -20,10 +27,21 @@ const AddTask = ({ onCloseModal, taskName, handleTask, setPriorityValue }) => {
     setPriorityValue(priority);
   }, [priority]);
 
+  useEffect(() => {
+    if (editTask) {
+      setSingleTaskName(editTask.name);
+      setPriority(editTask.priority);
+    }
+  }, [editTask]);
+
   const handleAddSingleTask = () => {
     handleTask(singleTaskName);
     setSingleTaskName("");
     setPriority("");
+  };
+
+  const handleSave = () => {
+    handleTask(singleTaskName);
   };
   return (
     <View>
@@ -34,7 +52,7 @@ const AddTask = ({ onCloseModal, taskName, handleTask, setPriorityValue }) => {
               placeholder="Task Name"
               style={styles.textInput}
               placeholderTextColor="#dddddd"
-              onChangeText={handleInput}
+              onChangeText={(text) => handleInput(text)}
               value={taskName}
             />
           </View>
