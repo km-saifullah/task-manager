@@ -1,20 +1,17 @@
 import { useState } from "react";
 import { Button, Modal, StyleSheet, TextInput, View } from "react-native";
-import DatePicker from "react-native-modern-datepicker";
 
 const AddTask = ({ onCloseModal }) => {
-  const [modalOpen, setMoadlOpen] = useState(false);
-  const [date, setDate] = useState("");
+  const [taskName, setTaskName] = useState("");
 
-  // handle modal
-  const handleModal = () => {
-    setMoadlOpen(!modalOpen);
+  // handle input fields
+  const handleInput = (enteredText) => {
+    setTaskName(enteredText);
   };
 
-  // handle date
-  const handleDate = (propDate) => {
-    setDate(propDate);
-    console.log(date);
+  // handle add task
+  const handleTask = () => {
+    console.log(taskName);
   };
   return (
     <View>
@@ -25,37 +22,17 @@ const AddTask = ({ onCloseModal }) => {
               placeholder="Task Name"
               style={styles.textInput}
               placeholderTextColor="#dddddd"
+              onChangeText={handleInput}
+              value={taskName}
             />
           </View>
-          <View>
-            <Button title="Select Date" onPress={handleModal} />
-            {modalOpen && (
-              <Modal animationType="slide">
-                <View style={styles.dateWrapper}>
-                  <View style={styles.dateContainer}>
-                    <DatePicker
-                      mode="calendar"
-                      selected={date}
-                      onDateChange={handleDate}
-                      options={{
-                        backgroundColor: "#090C08",
-                        textHeaderColor: "#FFA25B",
-                        textDefaultColor: "#F6E7C1",
-                        selectedTextColor: "#fff",
-                        mainColor: "#F4722B",
-                        textSecondaryColor: "#D6C7A1",
-                        borderColor: "rgba(122, 146, 165, 0.1)",
-                        borderRadius: 8,
-                      }}
-                    />
-                    <Button title="close" onPress={handleModal} />
-                  </View>
-                </View>
-              </Modal>
-            )}
-          </View>
-          <View style={styles.cancelBtn}>
-            <Button title="Cancel" onPress={onCloseModal} color="#FF5D5D" />
+          <View style={styles.buttonContainer}>
+            <View style={[styles.cancelBtn, styles.addBtn]}>
+              <Button title="Add Task" onPress={handleTask} color="#40A578" />
+            </View>
+            <View style={styles.cancelBtn}>
+              <Button title="Cancel" onPress={onCloseModal} color="#FF5D5D" />
+            </View>
           </View>
         </View>
       </Modal>
@@ -89,18 +66,17 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 1,
   },
-  dateWrapper: {
-    flex: 1,
+  buttonContainer: {
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: "row",
+    columnGap: 12,
   },
-  dateContainer: {
-    width: "60%",
-    height: 200,
-    borderTopRightRadius: 8,
+  addBtn: {
+    backgroundColor: "#40A578",
   },
   cancelBtn: {
-    width: "50%",
+    width: "30%",
     fontSize: 16,
     fontWeight: "600",
   },
