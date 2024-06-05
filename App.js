@@ -25,7 +25,19 @@ const App = () => {
     } else {
       setTaskName((currentTask) => [
         ...taskName,
-        { name: enteredText, id: Math.random().toString() },
+        {
+          name: enteredText,
+          createdAt: new Date()
+            .toLocaleString("en-GB", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+            })
+            .replace(",", ""),
+          id: Math.random().toString(),
+        },
       ]);
       setOpenModal(false);
     }
@@ -48,7 +60,6 @@ const App = () => {
         <AddTask
           onCloseModal={onCloseModal}
           setOpenModal={setOpenModal}
-          taskName={taskName}
           setTaskName={setTaskName}
           handleTask={handleTask}
         />
@@ -59,7 +70,13 @@ const App = () => {
           showsVerticalScrollIndicator={false}
           data={taskName}
           renderItem={(task) => {
-            return <SingleTask name={task.item.name} id={task.item.id} />;
+            return (
+              <SingleTask
+                name={task.item.name}
+                createdAt={task.item.createdAt}
+                id={task.item.id}
+              />
+            );
           }}
           keyExtractor={(item, index) => {
             return item.id;

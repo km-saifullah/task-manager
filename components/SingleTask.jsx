@@ -1,10 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const SingleTask = ({ name }) => {
+const SingleTask = ({ name, createdAt }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.taskName}>{name}</Text>
+    <View style={[styles.container, { borderLeftColor: "red" }]}>
+      <View>
+        <View>
+          <Text style={styles.taskName}>{name}</Text>
+        </View>
+        <View>
+          <Text>Created At: {createdAt}</Text>
+        </View>
+      </View>
     </View>
   );
 };
@@ -15,13 +22,16 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#ffffff",
     width: "100%",
-    marginVertical: 16,
+    marginVertical: 8,
     paddingHorizontal: 12,
-    paddingVertical: 20,
+    paddingVertical: 14,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    gap: 16,
+    borderWidth: 8,
+    borderRightColor: "transparent",
+    borderTopColor: "transparent",
+    borderBottomColor: "transparent",
   },
   taskName: {
     fontSize: 18,
