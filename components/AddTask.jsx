@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { Button, Modal, StyleSheet, TextInput, View } from "react-native";
 
-const AddTask = ({ onCloseModal }) => {
-  const [taskName, setTaskName] = useState("");
-
+const AddTask = ({ onCloseModal, taskName, handleTask }) => {
+  const [singleTaskName, setSingleTaskName] = useState("");
   // handle input fields
   const handleInput = (enteredText) => {
-    setTaskName(enteredText);
+    setSingleTaskName(enteredText);
   };
 
-  // handle add task
-  const handleTask = () => {
-    console.log(taskName);
+  const handleAddSingleTask = () => {
+    handleTask(singleTaskName);
+    setSingleTaskName("");
   };
   return (
     <View>
@@ -28,7 +27,11 @@ const AddTask = ({ onCloseModal }) => {
           </View>
           <View style={styles.buttonContainer}>
             <View style={[styles.cancelBtn, styles.addBtn]}>
-              <Button title="Add Task" onPress={handleTask} color="#40A578" />
+              <Button
+                title="Add Task"
+                onPress={handleAddSingleTask}
+                color="#40A578"
+              />
             </View>
             <View style={styles.cancelBtn}>
               <Button title="Cancel" onPress={onCloseModal} color="#FF5D5D" />

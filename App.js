@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { Button, FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import AddTask from "./components/AddTask";
+import SingleTask from "./components/SingleTask";
 
 const App = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [taskName, setTaskName] = useState([]);
 
   // close modal
   const onCloseModal = () => {
@@ -14,6 +16,19 @@ const App = () => {
   // handle add task
   const handleAddTask = () => {
     setOpenModal(true);
+  };
+
+  // handle add task
+  const handleTask = (enteredText) => {
+    if (enteredText == "") {
+      console.warn("Enter the task name");
+    } else {
+      setTaskName((currentTask) => [
+        ...taskName,
+        { name: enteredText, id: Math.random().toString() },
+      ]);
+      setOpenModal(false);
+    }
   };
 
   return (
@@ -29,7 +44,28 @@ const App = () => {
       <View>
         <Button title="Add Task" onPress={handleAddTask} color="#663399" />
       </View>
-      {openModal && <AddTask onCloseModal={onCloseModal} />}
+      {openModal && (
+        <AddTask
+          onCloseModal={onCloseModal}
+          setOpenModal={setOpenModal}
+          taskName={taskName}
+          setTaskName={setTaskName}
+          handleTask={handleTask}
+        />
+      )}
+
+      <View style={styles.taskList}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={taskName}
+          renderItem={(task) => {
+            return <SingleTask name={task.item.name} id={task.item.id} />;
+          }}
+          keyExtractor={(item, index) => {
+            return item.id;
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -56,5 +92,10 @@ const styles = StyleSheet.create({
     fontSize: 32,
     textAlign: "center",
     marginVertical: 20,
+  },
+  taskList: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
   },
 });
