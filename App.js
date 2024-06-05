@@ -3,6 +3,7 @@ import { Button, FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import AddTask from "./components/AddTask";
 import SingleTask from "./components/SingleTask";
+import DeleteButton from "./components/DeleteButton";
 
 const App = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -43,6 +44,11 @@ const App = () => {
     }
   };
 
+  // handle delete a task
+  const handleDeleteTask = (id) => {
+    setTaskName(taskName.filter((task) => task.id !== id));
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -62,6 +68,7 @@ const App = () => {
           setOpenModal={setOpenModal}
           setTaskName={setTaskName}
           handleTask={handleTask}
+          handleDeleteTask={handleDeleteTask}
         />
       )}
 
@@ -75,7 +82,12 @@ const App = () => {
                 name={task.item.name}
                 createdAt={task.item.createdAt}
                 id={task.item.id}
-              />
+              >
+                <DeleteButton
+                  id={task.item.id}
+                  handleDeleteTask={handleDeleteTask}
+                />
+              </SingleTask>
             );
           }}
           keyExtractor={(item, index) => {
@@ -111,6 +123,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   taskList: {
+    flex: 2,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",

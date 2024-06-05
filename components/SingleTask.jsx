@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const SingleTask = ({ name, createdAt }) => {
+const SingleTask = ({ name, createdAt, children }) => {
   return (
     <View style={[styles.container, { borderLeftColor: "red" }]}>
       <View>
@@ -9,8 +9,9 @@ const SingleTask = ({ name, createdAt }) => {
           <Text style={styles.taskName}>{name}</Text>
         </View>
         <View>
-          <Text>Created At: {createdAt}</Text>
+          <Text style={styles.createdAt}>Created At: {createdAt}</Text>
         </View>
+        {children}
       </View>
     </View>
   );
@@ -22,9 +23,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#ffffff",
     width: "100%",
-    marginVertical: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 14,
+    marginVertical: 6,
+    paddingVertical: 4,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
@@ -38,5 +38,15 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textTransform: "capitalize",
     color: "#181818",
+    marginBottom: 3,
+  },
+  createdAt: {
+    color: "blue",
+    fontSize: 14,
+    fontWeight: "500",
+    marginBottom: 3,
+  },
+  deleteBtn: {
+    marginTop: 6,
   },
 });
